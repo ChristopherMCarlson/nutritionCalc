@@ -1,11 +1,11 @@
 let router = require('express').Router()
-let Tasks = require('../models/task')
+let Foods = require('../models/food')
 
-router.post('/createTask', (req, res, next) => {
-  Tasks.create(req.body)
-    .then(newTask => {
-      console.log("Task Created!")
-      res.send(newTask)
+router.post('/createFood', (req, res, next) => {
+  Foods.create(req.body)
+    .then(newFood => {
+      console.log("Food Created!")
+      res.send(newFood)
     })
     .catch(err => {
       res.status(400).send(err)
@@ -13,7 +13,7 @@ router.post('/createTask', (req, res, next) => {
 })
 
 router.get('/:userId', (req, res, next) => {
-  Tasks.find({ user: req.params.userId })
+  Foods.find({ user: req.params.userId })
     .then(data => {
       res.send(data)
     })
@@ -22,8 +22,8 @@ router.get('/:userId', (req, res, next) => {
     })
 })
 
-router.put('/update/:taskId', (req, res, next) => {
-  Tasks.findByIdAndUpdate(req.params.taskId, req.body)
+router.put('/update/:foodId', (req, res, next) => {
+  Foods.findByIdAndUpdate(req.params.foodId, req.body)
     .then(data => {
       res.send(data)
     })
@@ -32,8 +32,8 @@ router.put('/update/:taskId', (req, res, next) => {
     })
 })
 
-router.delete('/delete/:taskId', (req, res, next) => {
-  Tasks.deleteOne({ _id: req.params.taskId })
+router.delete('/delete/:foodId', (req, res, next) => {
+  Foods.deleteOne({ _id: req.params.foodId })
     .then(data => {
       res.send(data)
       console.log("Task deleted!")

@@ -1,15 +1,6 @@
 let router = require('express').Router()
 let Users = require('../models/user')
 
-router.put('/city', (req, res) => {
-  Users.findById(req.body.userId)
-    .then((user) => {
-      user.city = req.body.city
-      user.save()
-      res.send(user)
-    })
-})
-
 router.get('/', (req, res, next) => {
   // @ts-ignore
   Users.find({ _id: req.session.uid })

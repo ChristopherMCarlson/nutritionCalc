@@ -19,6 +19,9 @@ let api = axios.create({
   withCredentials: true
 })
 
+const USDAKey = 'n0yIYdYvgbcp898BaqZh6AFAIm1wJipeicR45m5c';
+const USDAURL = 'https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key=' + USDAKey;
+
 const pixKey = '9888263-5e82026c4efaed628c83b0467';
 const url2 = 'https://pixabay.com/api/?key=' + pixKey + '&q=sunset&order=popular&per_page=200&image_type=photo&page='
 const apiUrl = url2;
@@ -28,6 +31,11 @@ function randomNum() {
 
 const imgApi = axios.create({
   baseURL: apiUrl,
+  timeout: 3000
+});
+
+const USDAApi = axios.create({
+  baseURL: USDAURL,
   timeout: 3000
 });
 
@@ -175,6 +183,13 @@ export default new Vuex.Store({
     },
     changeOpacity({ commit }, opacity) {
       commit('setOpacity', opacity)
+    },
+    getFood({ commit }, queryDirty) {
+      var query = queryDirty.split(' ').join('+');
+      USDAApi('' + '&generalSearchInput=' + query)
+        .then(res=> {
+          commit('returnQuery', res.data)
+        })
     },
     getWeather({ commit }) {
       var city = this.state.user.city

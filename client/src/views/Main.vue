@@ -105,6 +105,12 @@
 
 <script>
   export default {
+    created() {
+      //blocks users not logged in
+      if (!this.$store.state.user._id) {
+        this.$router.push({ name: "home" });
+      }
+    },
     data: () => ({
       today: '2019-01-01',
       focus: '2019-01-01',

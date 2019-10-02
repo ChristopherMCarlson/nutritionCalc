@@ -122,46 +122,13 @@ export default new Vuex.Store({
           commit('setUser', {})
         })
     },
-    //IMAGE GETTER
-    getImages({ commit, dispatch }) {
-      if (this.state.imgResults.length > 0) {
-        return
-      }
-      else {
-        imgApi('' + 1)
-          .then(res => {
-            commit('setImgResults', res.data.hits)
-            if (this.state.imgResults.length == 600) {
-              dispatch('setBGImg')
-            }
-          })
-        imgApi('' + 2)
-          .then(res => {
-            commit('setImgResults', res.data.hits)
-            if (this.state.imgResults.length == 600) {
-              dispatch('setBGImg')
-            }
-          })
-        imgApi('' + 3)
-          .then(res => {
-            commit('setImgResults', res.data.hits)
-            if (this.state.imgResults.length == 600) {
-              dispatch('setBGImg')
-            }
-          })
-      }
-    },
-    setBGImg({ commit }) {
-      let randomNum = Math.floor(Math.random() * 601)
-      commit('setImg', this.state.imgResults[randomNum].largeImageURL)
-    },
-    createTask({ dispatch }, task) {
-      api.post('/task/createTask', task)
+    createFood({ dispatch }, food) {
+      api.post('/food/createFood', food)
         .then(res => {
-          dispatch('getTasks')
+          dispatch('getFoods')
         })
     },
-    getTasks({ commit }) {
+    getFoods({ commit }) {
       api.get('/task/' + this.state.user._id)
         .then(res => {
           commit('setTasks', res.data)

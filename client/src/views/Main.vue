@@ -6,6 +6,13 @@
           <v-btn outlined class="mr-4" @click="setToday">
             Today
           </v-btn>
+          <v-btn
+            color="primary"
+            dark
+            @click.stop="dialog = true"
+          >
+            Add Food
+          </v-btn>
           <v-btn fab text small @click="prev">
             <v-icon small>mdi-chevron-left</v-icon>
           </v-btn>
@@ -100,6 +107,74 @@
         </v-menu>
       </v-sheet>
     </v-col>
+    <v-dialog
+        v-model="dialog"
+        max-width="290"
+      >
+        <v-card>
+          <v-card-title class="headline">Add Food</v-card-title>
+  
+          <v-form
+          ref="form"
+          @submit.prevent="createFood"
+        >
+
+          <v-select
+            v-model="foodCategory"
+            :items="foodCategories"
+            label="Category"
+            required
+          ></v-select>
+
+          <v-text-field
+            v-model="name"
+            label="Name"
+            required
+          ></v-text-field>
+    
+          <v-text-field
+            v-model="calories"
+            label="Calories"
+            required
+          ></v-text-field>
+
+          <v-text-field
+          v-model="carbs"
+          label="Carbs"
+          required
+          ></v-text-field>
+
+          <v-text-field
+          v-model="fat"
+          label="Fat"
+          required
+          ></v-text-field>
+
+          <v-text-field
+          v-model="protein"
+          label="Protein"
+          required
+          ></v-text-field>
+    
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="dialog = false"
+          >
+            Cancel
+          </v-btn>
+    
+          <v-btn
+            color="success"
+            class="mr-4"
+            type="submit"
+          >
+            Submit
+          </v-btn>
+        </v-form>
+        </v-card>
+      </v-dialog>
   </v-row>
 </template>
 
@@ -252,6 +327,21 @@
           color: '#4285F4',
         },
       ],
+      dialog: false,
+      foodCategories: [
+      'Vegetables',
+      'Meat',
+      'Carbs',
+      'Dairy',
+      'Fruits',
+      'Fats: Nuts, Oils, etc'
+    ],
+    foodCategory: '',
+    name: '',
+    calories: '',
+    carbs: '',
+    fat: '',
+    protein: ''
     }),
     computed: {
       title () {
@@ -333,6 +423,24 @@
         return d > 3 && d < 21
           ? 'th'
           : ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'][d % 10]
+      },
+      createFood() {
+        let food = {
+          type: this.foodCategory,
+          name: this.name,
+          calories: this.calories,
+          carbs: this.carbs,
+          fat: this.fat,
+          protein: this.protein
+        }
+        console.log(food);
+        this.$store.dispatch('createFood', food)
+        this.foodCategory = ''
+        this.name = ''
+        this.calories = ''
+        this.carbs = ''
+        this.fat = ''
+        this.protein = ''
       },
     },
   }

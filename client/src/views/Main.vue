@@ -3,16 +3,8 @@
     <v-col>
       <v-sheet height="64">
         <v-toolbar flat color="white">
-          <v-btn outlined class="mr-4" @click="setToday">
-            Today
-          </v-btn>
-          <v-btn
-            color="primary"
-            dark
-            @click.stop="dialog = true"
-          >
-            Add Food
-          </v-btn>
+          <v-btn outlined class="mr-4" @click="setToday">Today</v-btn>
+          <v-btn color="primary" dark @click.stop="dialog = true">Add Food</v-btn>
           <v-btn fab text small @click="prev">
             <v-icon small>mdi-chevron-left</v-icon>
           </v-btn>
@@ -23,10 +15,7 @@
           <div class="flex-grow-1"></div>
           <v-menu bottom right>
             <template v-slot:activator="{ on }">
-              <v-btn
-                outlined
-                v-on="on"
-              >
+              <v-btn outlined v-on="on">
                 <span>{{ typeToLabel[type] }}</span>
                 <v-icon right>mdi-menu-down</v-icon>
               </v-btn>
@@ -49,36 +38,11 @@
         </v-toolbar>
       </v-sheet>
       <v-sheet height="600">
-        <v-calendar
-          ref="calendar"
-          v-model="focus"
-          color="primary"
-          :events="events"
-          :event-color="getEventColor"
-          :event-margin-bottom="3"
-          :now="today"
-          :type="type"
-          @click:event="showEvent"
-          @click:more="viewDay"
-          @click:date="viewDay"
-          @change="updateRange"
-        ></v-calendar>
-        <v-menu
-          v-model="selectedOpen"
-          :close-on-content-click="false"
-          :activator="selectedElement"
-          full-width
-          offset-x
-        >
-          <v-card
-            color="grey lighten-4"
-            min-width="350px"
-            flat
-          >
-            <v-toolbar
-              :color="selectedEvent.color"
-              dark
-            >
+        <v-calendar ref="calendar" v-model="focus" color="primary" :events="events" :event-color="getEventColor" :event-margin-bottom="3" :now="today" :type="type" @click:event="showEvent" @click:more="viewDay" @click:date="viewDay" @change="updateRange">
+        </v-calendar>
+        <v-menu v-model="selectedOpen" :close-on-content-click="false" :activator="selectedElement" full-width offset-x>
+          <v-card color="grey lighten-4" min-width="350px" flat>
+            <v-toolbar :color="selectedEvent.color" dark>
               <v-btn icon>
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
@@ -95,11 +59,7 @@
               <span v-html="selectedEvent.details"></span>
             </v-card-text>
             <v-card-actions>
-              <v-btn
-                text
-                color="secondary"
-                @click="selectedOpen = false"
-              >
+              <v-btn text color="secondary" @click="selectedOpen = false">
                 Cancel
               </v-btn>
             </v-card-actions>
@@ -107,74 +67,21 @@
         </v-menu>
       </v-sheet>
     </v-col>
-    <v-dialog
-        v-model="dialog"
-        max-width="290"
-      >
-        <v-card>
-          <v-card-title class="headline">Add Food</v-card-title>
-  
-          <v-form
-          ref="form"
-          @submit.prevent="createFood"
-        >
-
-          <v-select
-            v-model="foodCategory"
-            :items="foodCategories"
-            label="Category"
-            required
-          ></v-select>
-
-          <v-text-field
-            v-model="name"
-            label="Name"
-            required
-          ></v-text-field>
-    
-          <v-text-field
-            v-model="calories"
-            label="Calories"
-            required
-          ></v-text-field>
-
-          <v-text-field
-          v-model="carbs"
-          label="Carbs"
-          required
-          ></v-text-field>
-
-          <v-text-field
-          v-model="fat"
-          label="Fat"
-          required
-          ></v-text-field>
-
-          <v-text-field
-          v-model="protein"
-          label="Protein"
-          required
-          ></v-text-field>
-    
-
-          <v-btn
-            color="green darken-1"
-            text
-            @click="dialog = false"
-          >
-            Cancel
-          </v-btn>
-    
-          <v-btn
-            color="success"
-            class="mr-4"
-            type="submit"
-          >
-            Submit
-          </v-btn>
+    <v-dialog v-model="dialog" max-width="290">
+      <v-card>
+        <v-card-title class="headline">Add Food</v-card-title>
+        <v-form ref="form" @submit.prevent="createFood">
+          <v-select v-model="foodCategory" :items="foodCategories" label="Category" required></v-select>
+          <v-text-field v-model="name" label="Name" required></v-text-field>
+          <v-text-field v-model="calories" label="Calories" required></v-text-field>
+          <v-text-field v-model="carbs" label="Carbs" required ></v-text-field>
+          <v-text-field v-model="fat" label="Fat" required ></v-text-field>
+          <v-text-field v-model="protein" label="Protein" required ></v-text-field>
+          <v-btn color="green darken-1" text @click="dialog = false">Cancel</v-btn>
+          <v-btn color="success" class="mr-4" type="submit">Submit</v-btn>
         </v-form>
-        </v-card>
-      </v-dialog>
+      </v-card>
+    </v-dialog>
   </v-row>
 </template>
 

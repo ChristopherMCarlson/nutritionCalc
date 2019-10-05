@@ -4,7 +4,7 @@
       <v-sheet height="64">
         <v-toolbar flat color="white">
           <v-btn outlined class="mr-4" @click="setToday">Today</v-btn>
-          <v-btn color="primary" dark @click.stop="dialog = true">Add Food</v-btn>
+          <v-btn color="primary" dark @click.stop="addFoodModal = true">Add Food</v-btn>
           <v-btn fab text small @click="prev">
             <v-icon small>mdi-chevron-left</v-icon>
           </v-btn>
@@ -67,6 +67,21 @@
         </v-menu>
       </v-sheet>
     </v-col>
+    <v-dialog v-model="addFoodModal" max-width="290">
+      <v-card>
+        <v-card-title class="headline">Add Food</v-card-title>
+        <v-form ref="form" @submit.prevent="createFood">
+          <v-select v-model="foodCategory" :items="foodCategories" label="Category" required></v-select>
+          <v-text-field v-model="name" label="Name" required></v-text-field>
+          <v-text-field v-model="calories" label="Calories" required></v-text-field>
+          <v-text-field v-model="carbs" label="Carbs" required ></v-text-field>
+          <v-text-field v-model="fat" label="Fat" required ></v-text-field>
+          <v-text-field v-model="protein" label="Protein" required ></v-text-field>
+          <v-btn color="green darken-1" text @click="dialog = false">Cancel</v-btn>
+          <v-btn color="success" class="mr-4" type="submit">Submit</v-btn>
+        </v-form>
+      </v-card>
+    </v-dialog>
     <v-dialog v-model="dialog" max-width="290">
       <v-card>
         <v-card-title class="headline">Add Food</v-card-title>
@@ -94,7 +109,7 @@
       }
     },
     data: () => ({
-      today: '2019-01-01',
+      today: moment('YYYY-MM-DD'),
       focus: '2019-01-01',
       type: 'month',
       typeToLabel: {

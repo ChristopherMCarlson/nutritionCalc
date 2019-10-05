@@ -4,6 +4,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
+// @ts-ignore
+Vue.use(require('vue-moment'));
+
 
 Vue.config.productionTip = false
 

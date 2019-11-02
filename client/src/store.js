@@ -53,10 +53,11 @@ export default new Vuex.Store({
     user: {},
     bgImg: '',
     imgResults: [],
-    tasks: [],
+    food: [],
     opacity: 0,
     weather: '',
-    tempF: ''
+    tempF: '',
+    activeComponent: ''
   },
   mutations: {
     setImgResults(state, imgData) {
@@ -68,18 +69,21 @@ export default new Vuex.Store({
     setImg(state, img) {
       state.bgImg = img
     },
-    setTasks(state, tasks) {
-      state.tasks = tasks
+    setFood(state, food) {
+      state.food = food
     },
     setOpacity(state, opacity) {
       state.opacity = opacity
     },
-    setWeather(state, weather) {
-      state.weather = weather
+    setActiveComponent(state, activeComponent) {
+      state.activeComponent = activeComponent
     },
-    setF(state, temp) {
-      state.tempF = temp
-    }
+    // setWeather(state, weather) {
+    //   state.weather = weather
+    // },
+    // setF(state, temp) {
+    //   state.tempF = temp
+    // }
   },
   actions: {
     //AUTH STUFF
@@ -88,7 +92,6 @@ export default new Vuex.Store({
       auth.post('register', newUser)
         .then(res => {
           commit('setUser', res.data)
-          dispatch('getImages')
           router.push({ name: 'main' })
         })
     },
@@ -97,9 +100,8 @@ export default new Vuex.Store({
         .then(res => {
           commit('setUser', res.data)
           console.log("Authenticate has shot off")
-          dispatch('getImages')
-          dispatch('getTasks')
-          dispatch('getWeather')
+          // dispatch('getFood')
+          // dispatch('getWeather')
           router.push({ name: 'main' })
         })
     },
@@ -108,9 +110,8 @@ export default new Vuex.Store({
         .then(res => {
           console.log(res.data)
           commit('setUser', res.data)
-          dispatch('getImages')
-          dispatch('getTasks')
-          dispatch('getWeather')
+          // dispatch('getFood')
+          // dispatch('getWeather')
           router.push({ name: 'main' })
         })
     },
@@ -129,25 +130,28 @@ export default new Vuex.Store({
         })
     },
     getFoods({ commit }) {
-      api.get('/task/' + this.state.user._id)
+      api.get('/food/' + this.state.user._id)
         .then(res => {
-          commit('setTasks', res.data)
+          commit('setFood', res.data)
         })
     },
-    changeTask({ dispatch }, taskId) {
-      var task = this.state.tasks.find(task => task._id == taskId)
-      task.completed = !task.completed
-      api.put('/task/update/' + taskId, task)
-        .then(res => {
-          dispatch('getTasks')
-        })
+    changeActiveComponent({commit}, activeComponent) {
+      commit('setActiveComponent', activeComponent)
     },
-    deleteTask({ dispatch }, taskId) {
-      api.delete('/task/delete/' + taskId)
-        .then(res => {
-          dispatch('getTasks')
-        })
-    },
+    // changeTask({ dispatch }, taskId) {
+    //   var task = this.state.tasks.find(task => task._id == taskId)
+    //   task.completed = !task.completed
+    //   api.put('/task/update/' + taskId, task)
+    //     .then(res => {
+    //       dispatch('getFood')
+    //     })
+    // },
+    // deleteTask({ dispatch }, taskId) {
+    //   api.delete('/task/delete/' + taskId)
+    //     .then(res => {
+    //       dispatch('getFood')
+    //     })
+    // },
     changeOpacity({ commit }, opacity) {
       commit('setOpacity', opacity)
     },
@@ -158,14 +162,14 @@ export default new Vuex.Store({
           commit('returnQuery', res.data)
         })
     },
-    getWeather({ commit }) {
-      var city = this.state.user.city
-      weatherApi('' + 'weather?q=' + city + '&&APPID=' + weatherKey)
-        .then(res => {
-          commit('setWeather', res.data)
-          commit('setF', Math.round((res.data.main.temp * 9 / 5) - 459.67))
-        })
-    },
+    // getWeather({ commit }) {
+    //   var city = this.state.user.city
+    //   weatherApi('' + 'weather?q=' + city + '&&APPID=' + weatherKey)
+    //     .then(res => {
+    //       commit('setWeather', res.data)
+    //       commit('setF', Math.round((res.data.main.temp * 9 / 5) - 459.67))
+    //     })
+    // },
     changeCity({ dispatch, commit }, userData) {
       api.put('/user/city', userData)
         .then((res) => {

@@ -48,7 +48,7 @@
         items: [
           { title: 'Nutrition', icon: 'mdi-food-apple', method: 'nutrition'},
           { title: 'News', icon: 'mdi-newspaper' , method: 'news'},
-          { title: 'Users', icon: 'mdi-account-group-outline' , method: 'users'},
+          { title: 'Lists', icon: 'mdi-clipboard-list' , method: 'users'},
         ],
         mini: true,
       }

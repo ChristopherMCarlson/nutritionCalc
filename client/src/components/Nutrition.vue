@@ -14,10 +14,10 @@
                 <v-container>
                   <v-row>
                     <v-col cols="12">
-                      <v-select v-model="meal" label="Meal" required></v-select>
+                      <v-select v-model="meal" label="Meal" :items='meals' required></v-select>
                     </v-col>
                     <v-col cols="12">
-                        <v-text-field v-model="calories" label="Calories" :items='meals' required></v-text-field>
+                        <v-text-field v-model="calories" label="Calories" required></v-text-field>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -161,9 +161,10 @@
       createFood() {
         let meal = {
           user: this.$store.state.user._id,
-          name: this.name,
-          calories: 
+          meal: this.meal,
+          calories: this.calories
         }
+        console.log(meal);
       }
     },
     //computed: {

@@ -1,11 +1,11 @@
 let router = require('express').Router()
-let Foods = require('../models/food')
+let Meals = require('../models/meal')
 
-router.post('/createFood', (req, res, next) => {
-  Foods.create(req.body)
-    .then(newFood => {
-      console.log("Food Created!")
-      res.send(newFood)
+router.post('/createMeal', (req, res, next) => {
+  Meals.create(req.body)
+    .then(newMeal => {
+      console.log("Meal Created!")
+      res.send(newMeal)
     })
     .catch(err => {
       res.status(400).send(err)
@@ -13,7 +13,7 @@ router.post('/createFood', (req, res, next) => {
 })
 
 router.get('/:userId', (req, res, next) => {
-  Foods.find({ user: req.params.userId })
+  Meals.find({ user: req.params.userId })
     .then(data => {
       res.send(data)
     })
@@ -23,7 +23,7 @@ router.get('/:userId', (req, res, next) => {
 })
 
 router.put('/update/:foodId', (req, res, next) => {
-  Foods.findByIdAndUpdate(req.params.foodId, req.body)
+  Meals.findByIdAndUpdate(req.params.foodId, req.body)
     .then(data => {
       res.send(data)
     })
@@ -33,10 +33,10 @@ router.put('/update/:foodId', (req, res, next) => {
 })
 
 router.delete('/delete/:foodId', (req, res, next) => {
-  Foods.deleteOne({ _id: req.params.foodId })
+  Meals.deleteOne({ _id: req.params.foodId })
     .then(data => {
       res.send(data)
-      console.log("Task deleted!")
+      console.log("Meal deleted!")
     })
     .catch(err => {
       res.send(400).send(err)

@@ -1,25 +1,11 @@
 <template>
   <v-app>
+
       <v-navigation-drawer
       v-model="drawer"
-      :mini-variant.sync="mini"
       app
     >
-      <v-list-item>
-        <v-list-item-avatar>
-          <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
-        </v-list-item-avatar>
-
-        <v-list-item-title>{{user.name}}</v-list-item-title>
-
-        <v-btn icon  @click.stop="mini = !mini" >
-          <v-icon>mdi-chevron-left</v-icon>
-        </v-btn>
-      </v-list-item>
-
-      <v-divider></v-divider>
-
-      <v-list dense>
+    <v-list dense>
         <v-list-item v-for="item in items" :key="item.title" link>
           <v-list-item-icon @click='changeComponent(item.method)'>
             <v-icon>{{ item.icon }}</v-icon>
@@ -32,9 +18,25 @@
       </v-list>
     </v-navigation-drawer>
 
+    <v-app-bar
+      app
+      color="indigo"
+      dark
+    >
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>Board Dash</v-toolbar-title>
+    </v-app-bar>
+
     <v-content>
-      <router-view />
+        <router-view />
     </v-content>
+    <v-footer
+      color="indigo"
+      app
+    >
+      <span class="white--text">&copy; 2019</span>
+    </v-footer>
+
   </v-app>
 </template>
 
@@ -44,7 +46,7 @@
     name: 'App',
     data() {
       return {
-        drawer: true,
+        drawer: false,
         items: [
           { title: 'Nutrition', icon: 'mdi-food-apple', method: 'nutrition'},
           { title: 'News', icon: 'mdi-newspaper' , method: 'news'},

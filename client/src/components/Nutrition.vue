@@ -1,7 +1,39 @@
 <template>
     <v-container>
+      <v-row justify="center">
+        <v-dialog v-model="addFoodModal" persistent max-width="600px">
+          <template v-slot:activator="{ on }">
+            <v-btn color="indigo lighten-2" dark v-on="on">Add Meal</v-btn>
+          </template>
+          <v-card>
+            <v-form ref="form" @submit.prevent="createFood">
+              <v-card-title>
+                <span class="headline">User Profile</span>
+              </v-card-title>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col cols="12">
+                      <v-select v-model="meal" label="Meal" required></v-select>
+                    </v-col>
+                    <v-col cols="12">
+                        <v-text-field v-model="calories" label="Calories" :items='meals' required></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-container>
+                <small>*indicates required field</small>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="indigo darken-1" text @click="addFoodModal = false">Cancel</v-btn>
+                <v-btn color="indigo darken-1" text @click="addFoodModal = false" type="submit">Save</v-btn>
+              </v-card-actions>
+            </v-form>
+          </v-card>
+        </v-dialog>
+      </v-row>
       <div>
-        <canvas id="food-dist-chart" height="[$vuetify.breakpoint.mdAndDown ? 1000 : 50]"></canvas>
+        <canvas id="food-dist-chart" height="[$vuetify.breakpoint.mdAndDown ? 1000: 10]"></canvas>
       </div>
       <div>
         <canvas id="total-cals-by-day-chart" height="[$vuetify.breakpoint.mdAndDown ? 1000 : 100]"></canvas>
@@ -9,17 +41,6 @@
       <div>
         <canvas id="weight-chart" height="[$vuetify.breakpoint.mdAndDown ? 1000 : 100]"></canvas>
       </div>
-      <v-dialog v-model="addFoodModal" max-width="290">
-        <v-card>
-          <v-card-title class="headline">Add Food</v-card-title>
-          <v-form ref="form" @submit.prevent="createFood">
-            <v-text-field v-model="name" label="Name" required></v-text-field>
-            <v-text-field v-model="calories" label="Calories" required></v-text-field>
-            <v-btn color="green darken-1" text @click="dialog = false">Cancel</v-btn>
-            <v-btn color="success" class="mr-4" type="submit">Submit</v-btn>
-          </v-form>
-        </v-card>
-      </v-dialog>
     </v-container>
   </template>
   
@@ -28,7 +49,13 @@
 
   export default {
     data: () => ({
-      name: '',
+      meal: '',
+      meals: [
+        'Breakfast',
+        'Lunch',
+        'Dinner',
+        'Snack'
+      ],
       calories: '',
       addFoodModal: false,
       weightChartData: {
@@ -94,7 +121,8 @@
           labels: ['10/28', '10/29', '10/30', '10/31', '11/1', '11/2', '11/3'],
           datasets: [{
             data: [1800, 1526, 1200, 1365, 1589, 1845, 1365],
-            backgroundColor: ['blue', 'red', 'yellow', 'green', 'cyan', 'orange', 'purple']
+            backgroundColor: 'rgba(172, 33, 253, 0.48)',
+            borderColor: 'rgba(172, 33, 253, 1.0)'
           }]
         },
         options: {
@@ -130,6 +158,13 @@
           options: chartData.options,
         });
       },
+      createFood() {
+        let meal = {
+          user: this.$store.state.user._id,
+          name: this.name,
+          calories: 
+        }
+      }
     },
     //computed: {
     //  weight() {

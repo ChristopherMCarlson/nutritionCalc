@@ -56,7 +56,7 @@ export default new Vuex.Store({
         .then(res => {
           commit('setUser', res.data)
           console.log("Authenticate has shot off")
-          // dispatch('getFood')
+          // dispatch('getMeal')
           // dispatch('getWeather')
           router.push({ name: 'main' })
         })
@@ -66,7 +66,7 @@ export default new Vuex.Store({
         .then(res => {
           console.log(res.data)
           commit('setUser', res.data)
-          // dispatch('getFood')
+          // dispatch('getMeal')
           // dispatch('getWeather')
           router.push({ name: 'main' })
         })
@@ -79,16 +79,16 @@ export default new Vuex.Store({
           commit('setUser', {})
         })
     },
-    createMeal({ dispatch }, food) {
-      api.post('/food/createFood', food)
+    createMeal({ dispatch }, meal) {
+      api.post('/meal/createMeal', meal)
         .then(res => {
-          dispatch('getFoods')
+          dispatch('getMeals')
         })
     },
-    getFoods({ commit }) {
-      api.get('/food/' + this.state.user._id)
+    getMeals({ commit }) {
+      api.get('/meal/' + this.state.user._id)
         .then(res => {
-          commit('setFood', res.data)
+          commit('setMeal', res.data)
         })
     },
     changeActiveComponent({commit}, activeComponent) {

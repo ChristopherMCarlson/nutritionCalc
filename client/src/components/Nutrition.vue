@@ -162,9 +162,11 @@
         let meal = {
           user: this.$store.state.user._id,
           meal: this.meal,
-          calories: this.calories
+          calories: this.calories,
+          date: new Date().toISOString().slice(0,10)
         }
-        console.log(meal);
+        console.log(meal)
+        this.$store.dispatch('createMeal', meal)
       }
     },
     //computed: {

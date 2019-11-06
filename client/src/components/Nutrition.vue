@@ -148,6 +148,7 @@
       this.createChart('food-dist-chart', this.foodDistChartData)
       this.createChart('total-cals-by-day-chart', this.caloriesByDayChartData)
       this.createChart('weight-chart', this.weightChartData)
+      this.$store.dispatch('getMeals', (new Date(Date.now() - ((new Date).getTimezoneOffset() * 60000))).toISOString().slice(0,10))
     },
     methods: {
       createChart(chartId, chartData) {
@@ -163,7 +164,7 @@
           user: this.$store.state.user._id,
           meal: this.meal,
           calories: this.calories,
-          date: new Date().toISOString().slice(0,10)
+          date: (new Date(Date.now() - ((new Date).getTimezoneOffset() * 60000))).toISOString().slice(0,10)
         }
         console.log(meal)
         this.$store.dispatch('createMeal', meal)

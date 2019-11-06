@@ -22,6 +22,16 @@ router.get('/:userId', (req, res, next) => {
     })
 })
 
+router.get('/mealsByDate/:date', (req, res, next) => {
+  Meals.find({ date: req.params.date })
+    .then(data => {
+      res.send(data)
+    })
+    .catch(err => {
+      res.status(400).send(err)
+    })
+})
+
 router.put('/update/:foodId', (req, res, next) => {
   Meals.findByIdAndUpdate(req.params.foodId, req.body)
     .then(data => {

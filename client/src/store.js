@@ -85,8 +85,8 @@ export default new Vuex.Store({
           dispatch('getMeals')
         })
     },
-    getMeals({ commit }) {
-      api.get('/meal/' + this.state.user._id)
+    getMeals({ commit }, date) {
+      api.get('/mealsByDate/' + date)
         .then(res => {
           commit('setMeal', res.data)
         })

@@ -26,20 +26,51 @@ export default new Vuex.Store({
     user: {},
     bgImg: '',
     imgResults: [],
-    food: [],
+    meals: [],
+    todaysMeals: {},
     opacity: 0,
     weather: '',
     tempF: '',
     activeComponent: 'Nutrition'
   },
   mutations: {
-
     setUser(state, user) {
       state.user = user
     },
     setActiveComponent(state, activeComponent) {
       state.activeComponent = activeComponent
     },
+    setMeal(state, meals){
+      state.meals = meals
+      let chartData = {
+        type: 'doughnut',
+        data: {
+          labels: [],
+          datasets: [{
+            data: [],
+            backgroundColor: ['green', 'blue', 'yellow', 'red']
+          }]
+        },
+        options: {
+          responsive: true,
+          title: {
+            display: true,
+            position: 'top',
+            fontsize: 80,
+            text: "Today's Calorie Distribution"
+          }
+        }
+      }
+      meals.forEach(eData => {
+        if(!chartData.data.labels.includes(eData.meal)){
+          chartData.data.labels.push(eData.meal);
+          chartData.data.datasets[0].data.push(eData.calories);
+        } else {
+          chartData.data.datasets[0].data[chartData.data.labels.indexOf(eData.meal)] += eData.calories;
+        }
+      })
+      state.todaysMeals = chartData;
+    }
   },
   actions: {
     //AUTH STUFF
@@ -86,7 +117,7 @@ export default new Vuex.Store({
         })
     },
     getMeals({ commit }, date) {
-      api.get('/mealsByDate/' + date)
+      api.get('/meal/mealsByDate/' + date)
         .then(res => {
           commit('setMeal', res.data)
         })
@@ -103,6 +134,39 @@ export default new Vuex.Store({
           commit('setUser', res.data)
           dispatch('getWeather')
         })
+    }
+  },
+  getters: {
+    mealsChartData(state){
+      let data = state.meals
+      let chartData = {
+        type: 'doughnut',
+        data: {
+          labels: [],
+          datasets: [{
+            data: [],
+            backgroundColor: ['green', 'blue', 'yellow', 'red']
+          }]
+        },
+        options: {
+          responsive: true,
+          title: {
+            display: true,
+            position: 'top',
+            fontsize: 80,
+            text: "Today's Calorie Distribution"
+          }
+        }
+      }
+      data.forEach(eData => {
+        if(!chartData.data.labels.includes(eData.meal)){
+          chartData.data.labels.push(eData.meal);
+          chartData.data.datasets[0].data.push(eData.calories);
+        } else {
+          chartData.data.datasets[0].data[chartData.data.labels.indexOf(eData.meal)] += eData.calories;
+        }
+      })
+      return chartData
     }
   }
 })

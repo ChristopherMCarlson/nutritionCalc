@@ -92,29 +92,29 @@
           }
         }
       },
-      foodDistChartData: {
-        type: 'doughnut',
-        data: {
-          labels: [
-            'Breakfast',
-            'Lunch',
-            'Dinner'
-          ],
-          datasets: [{
-            data: [154, 320, 1300],
-            backgroundColor: ['blue', 'green', 'red']
-          }]
-        },
-        options: {
-          responsive: true,
-          title: {
-            display: true,
-            position: 'top',
-            fontsize: 80,
-            text: "Today's Calorie Distribution"
-          }
-        }
-      },
+      //foodDistChartData: {
+      //  type: 'doughnut',
+      //  data: {
+      //    labels: [
+      //      'Breakfast',
+      //      'Lunch',
+      //      'Dinner'
+      //    ],
+      //    datasets: [{
+      //      data: [154, 320, 1300],
+      //      backgroundColor: ['blue', 'green', 'red']
+      //    }]
+      //  },
+      //  options: {
+      //    responsive: true,
+      //    title: {
+      //      display: true,
+      //      position: 'top',
+      //      fontsize: 80,
+      //      text: "Today's Calorie Distribution"
+      //    }
+      //  }
+      //},
       caloriesByDayChartData: {
         type: 'bar',
         data: {
@@ -145,7 +145,7 @@
       }
     }),
     mounted () {
-      this.createChart('food-dist-chart', this.foodDistChartData)
+      //this.createChart('food-dist-chart', this.foodDistChartData)
       this.createChart('total-cals-by-day-chart', this.caloriesByDayChartData)
       this.createChart('weight-chart', this.weightChartData)
       this.$store.dispatch('getMeals', (new Date(Date.now() - ((new Date).getTimezoneOffset() * 60000))).toISOString().slice(0,10))
@@ -170,15 +170,14 @@
         this.$store.dispatch('createMeal', meal)
       }
     },
-    //computed: {
-    //  weight() {
-    //    let wData = this.$store.getters.weightChartData
-    //    if (document.getElementById('weight-chart')) {
-    //      this.createChart('weight-chart', wData);
-    //    }
-    //    return "success"
-    //  },
-    //}
+    computed: {
+      todaysMealChart() {
+        let mealData = this.$store.state.todaysMeals;
+        this.createChart('food-dist-chart', mealData);
+        console.log(mealData);
+        return "success"
+      },
+    }
   };
   </script>
   

@@ -92,29 +92,6 @@
           }
         }
       },
-      //foodDistChartData: {
-      //  type: 'doughnut',
-      //  data: {
-      //    labels: [
-      //      'Breakfast',
-      //      'Lunch',
-      //      'Dinner'
-      //    ],
-      //    datasets: [{
-      //      data: [154, 320, 1300],
-      //      backgroundColor: ['blue', 'green', 'red']
-      //    }]
-      //  },
-      //  options: {
-      //    responsive: true,
-      //    title: {
-      //      display: true,
-      //      position: 'top',
-      //      fontsize: 80,
-      //      text: "Today's Calorie Distribution"
-      //    }
-      //  }
-      //},
       caloriesByDayChartData: {
         type: 'bar',
         data: {
@@ -172,10 +149,36 @@
     },
     computed: {
       todaysMealChart() {
-        let mealData = this.$store.state.todaysMeals;
-        this.createChart('food-dist-chart', mealData);
-        console.log(mealData);
-        return "success"
+        let mealData = {
+        type: 'doughnut',
+        data: {
+          labels: [],
+          datasets: [{
+            data: [],
+            backgroundColor: ['green', 'blue', 'yellow', 'red']
+          }]
+        },
+        options: {
+          responsive: true,
+          title: {
+            display: true,
+            position: 'top',
+            fontsize: 80,
+            text: "Today's Calorie Distribution"
+          }
+        }
+      }
+      this.$store.state.meals.forEach(eData => {
+        if(!chartData.data.labels.includes(eData.meal)){
+          chartData.data.labels.push(eData.meal);
+          chartData.data.datasets[0].data.push(eData.calories);
+        } else {
+          chartData.data.datasets[0].data[chartData.data.labels.indexOf(eData.meal)] += eData.calories;
+        }
+      })
+      this.createChart('food-dist-chart', mealData);
+      console.log(mealData);
+      return "success"
       },
     }
   };
